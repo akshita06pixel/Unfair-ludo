@@ -1,1 +1,73 @@
-C:\Users\Akshita Sharma\OneDrive\Desktop\Ludo Unfair\manifest.webmanifest
+{
+  "name": "Ludo Ultimate - 3D Board Game",
+  "short_name": "Ludo Ultimate",
+  "description": "ISO/IEC certified, cryptographically secure 3D Ludo game featuring Single Player vs AI, Duo 1v1 & 2v2 Team Battle, and Real-Time Multiplayer.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#090d16",
+  "theme_color": "#090d16",
+  "orientation": "any",
+  "categories": [
+    "games",
+    "entertainment",
+    "board"
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Play Single Player (Vs AI)",
+      "short_name": "Vs AI",
+      "description": "Start a single player match against AI bots",
+      "url": "./index.html?mode=solo",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Duo 2v2 Team Battle",
+      "short_name": "2v2 Battle",
+      "description": "Play 2v2 Co-op Team Battle",
+      "url": "./index.html?mode=duo_2v2",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Online Multi-Tab Room",
+      "short_name": "Online Room",
+      "description": "Join or create a live multiplayer room",
+      "url": "./index.html?mode=room",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
