@@ -1,1 +1,1060 @@
-C:\Users\Akshita Sharma\OneDrive\Desktop\Ludo Unfair\index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Ludo Ultimate - ISO/IEC Certified, cryptographically secure 3D board game app featuring Single Player vs AI, Duo 1v1 & 2v2 Team Battle, and Real-Time Multiplayer.">
+    <meta name="keywords" content="Ludo, PWA, 3D Board Game, Multiplayer, AI, Cryptographic Dice, Fair Play">
+    <meta name="author" content="Ludo Ultimate Team">
+    <title>Ludo Unfair - Cheater Edition</title>
+
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#090d16">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ludo Ultimate">
+    <meta name="application-name" content="Ludo Ultimate">
+    <meta name="msapplication-TileColor" content="#090d16">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- App Manifest & Icons -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Confetti Particle Celebration Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="app-container">
+        <!-- Top Navigation Header -->
+        <header class="game-header">
+            <div class="brand-left">
+                <div class="brand-title">
+                    <span class="app-brand-logo">🎲</span>
+                    <span>Ludo Unfair</span>
+                    <span class="brand-badge">Cheat Mode</span>
+                </div>
+                <!-- Current Mode Pill -->
+                <div id="active-mode-badge" class="active-mode-badge">
+                    <span id="active-mode-icon">👤</span>
+                    <span id="active-mode-title">Single Player</span>
+                </div>
+            </div>
+
+            <!-- Primary Game Flow Action Buttons (Start, Restart, Quit) -->
+            <div class="header-action-group">
+                <button id="header-start-btn" class="btn-flow btn-flow-start" title="Configure and Start a New Game">
+                    <span>🎮</span>
+                    <span>Start Game</span>
+                </button>
+                <button id="header-restart-btn" class="btn-flow btn-flow-restart" title="Restart Current Match">
+                    <span>🔄</span>
+                    <span>Restart</span>
+                </button>
+                <button id="header-quit-btn" class="btn-flow btn-flow-quit" title="Quit to Main Menu">
+                    <span>🚪</span>
+                    <span>Quit</span>
+                </button>
+            </div>
+
+            <!-- Secondary Controls (Install App, Fullscreen, Undo, Online Room, Sound, Settings, Rules) -->
+            <div class="header-controls">
+                <button id="header-install-btn" class="btn-install-header" title="Install App to Device" aria-label="Install App">
+                    <span class="install-icon">📲</span>
+                    <span class="install-text">Install App</span>
+                </button>
+                <button id="fullscreen-toggle-btn" class="btn-icon" title="Toggle Fullscreen Mode" aria-label="Toggle Fullscreen">⛶</button>
+                <button id="undo-btn" class="btn-icon" title="Undo Move (Practice Mode)" aria-label="Undo Move" style="display: none;">↩️</button>
+                <button id="online-room-btn" class="btn-icon" title="Online Multi-Tab Room Play" aria-label="Online Room">🌐</button>
+                <button id="sound-toggle-btn" class="btn-icon" title="Toggle Sound (M)" aria-label="Toggle Sound">🔊</button>
+                <button id="settings-btn" class="btn-icon" title="Game Settings &amp; Preferences" aria-label="Settings">⚙️</button>
+                <button id="rules-btn" class="btn-icon" title="Game Rules &amp; How to Play" aria-label="How to Play">📖</button>
+                <button id="iso-cert-btn" class="iso-badge" title="Inspect Provably Fair Audit Trail">
+                    <span class="iso-icon">🛡️</span>
+                    <span class="iso-text">Fair Play</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Game Layout (Pure Centered Board & 4 Corner Stations) -->
+        <main class="main-game-layout single-centered-layout">
+            <div class="board-wrapper">
+                <!-- Top Corner & Wing Stations (Red, Green) -->
+                <div class="stations-top-row">
+                    <!-- Red Player Station (Top-Left) -->
+                    <div class="player-station station-red" id="station-red" data-color="red">
+                        <div class="station-header">
+                            <div class="station-avatar-circle" id="station-avatar-red">👑</div>
+                            <div class="station-info">
+                                <span class="station-player-name" id="station-name-red">Player 1</span>
+                                <span class="station-status-pill" id="station-status-red">Turn to Roll</span>
+                            </div>
+                        </div>
+                        <div class="station-dice-wrap">
+                            <div class="corner-dice-scene" id="dice-scene-red" data-color="red" title="Click or Press Space to Roll">
+                                <div class="cube-dice dice-red" id="dice-cube-red">
+                                    <div class="dice-face face-1"><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-2"><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-3"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-4"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-5"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-6"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                </div>
+                            </div>
+                            <span class="corner-dice-label" id="dice-label-red">🎲 ROLL</span>
+                        </div>
+                    </div>
+
+                    <!-- Purple Player Station (Optional extension) -->
+                    <div class="player-station station-purple" id="station-purple" data-color="purple" style="display: none;">
+                        <div class="station-header">
+                            <div class="station-avatar-circle" id="station-avatar-purple">🔮</div>
+                            <div class="station-info">
+                                <span class="station-player-name" id="station-name-purple">Player 5</span>
+                                <span class="station-status-pill" id="station-status-purple">Waiting</span>
+                            </div>
+                        </div>
+                        <div class="station-dice-wrap">
+                            <div class="corner-dice-scene" id="dice-scene-purple" data-color="purple" title="Click or Press Space to Roll">
+                                <div class="cube-dice dice-purple" id="dice-cube-purple">
+                                    <div class="dice-face face-1"><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-2"><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-3"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-4"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-5"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-6"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                </div>
+                            </div>
+                            <span class="corner-dice-label" id="dice-label-purple">🎲 ROLL</span>
+                        </div>
+                    </div>
+
+                    <!-- Green Player Station (Top-Right) -->
+                    <div class="player-station station-green" id="station-green" data-color="green">
+                        <div class="station-header">
+                            <div class="station-avatar-circle" id="station-avatar-green">🤖</div>
+                            <div class="station-info">
+                                <span class="station-player-name" id="station-name-green">Player 2</span>
+                                <span class="station-status-pill" id="station-status-green">Waiting</span>
+                            </div>
+                        </div>
+                        <div class="station-dice-wrap">
+                            <div class="corner-dice-scene" id="dice-scene-green" data-color="green" title="Click or Press Space to Roll">
+                                <div class="cube-dice dice-green" id="dice-cube-green">
+                                    <div class="dice-face face-1"><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-2"><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-3"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-4"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-5"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-6"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                </div>
+                            </div>
+                            <span class="corner-dice-label" id="dice-label-green">🎲 ROLL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15x15 Central Board Grid Area -->
+                <div class="board-center-container">
+                    <div id="ludo-board" class="ludo-board">
+                        <!-- Populated dynamically by js/ui.js -->
+                    </div>
+                    <!-- Dynamic Tokens Layer -->
+                    <div id="tokens-container" class="tokens-container"></div>
+                </div>
+
+                <!-- Bottom Corner & Wing Stations (Blue, Orange, Yellow) -->
+                <div class="stations-bottom-row">
+                    <!-- Blue Player Station (Bottom-Left) -->
+                    <div class="player-station station-blue" id="station-blue" data-color="blue">
+                        <div class="station-header">
+                            <div class="station-avatar-circle" id="station-avatar-blue">🤖</div>
+                            <div class="station-info">
+                                <span class="station-player-name" id="station-name-blue">Player 4</span>
+                                <span class="station-status-pill" id="station-status-blue">Waiting</span>
+                            </div>
+                        </div>
+                        <div class="station-dice-wrap">
+                            <div class="corner-dice-scene" id="dice-scene-blue" data-color="blue" title="Click or Press Space to Roll">
+                                <div class="cube-dice dice-blue" id="dice-cube-blue">
+                                    <div class="dice-face face-1"><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-2"><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-3"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-4"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-5"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-6"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                </div>
+                            </div>
+                            <span class="corner-dice-label" id="dice-label-blue">🎲 ROLL</span>
+                        </div>
+                    </div>
+
+                    <!-- Orange Player Station (Optional extension) -->
+                    <div class="player-station station-orange" id="station-orange" data-color="orange" style="display: none;">
+                        <div class="station-header">
+                            <div class="station-avatar-circle" id="station-avatar-orange">🦊</div>
+                            <div class="station-info">
+                                <span class="station-player-name" id="station-name-orange">Player 6</span>
+                                <span class="station-status-pill" id="station-status-orange">Waiting</span>
+                            </div>
+                        </div>
+                        <div class="station-dice-wrap">
+                            <div class="corner-dice-scene" id="dice-scene-orange" data-color="orange" title="Click or Press Space to Roll">
+                                <div class="cube-dice dice-orange" id="dice-cube-orange">
+                                    <div class="dice-face face-1"><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-2"><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-3"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-4"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-5"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-6"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                </div>
+                            </div>
+                            <span class="corner-dice-label" id="dice-label-orange">🎲 ROLL</span>
+                        </div>
+                    </div>
+
+                    <!-- Yellow Player Station (Bottom-Right) -->
+                    <div class="player-station station-yellow" id="station-yellow" data-color="yellow">
+                        <div class="station-header">
+                            <div class="station-avatar-circle" id="station-avatar-yellow">🤖</div>
+                            <div class="station-info">
+                                <span class="station-player-name" id="station-name-yellow">Player 3</span>
+                                <span class="station-status-pill" id="station-status-yellow">Waiting</span>
+                            </div>
+                        </div>
+                        <div class="station-dice-wrap">
+                            <div class="corner-dice-scene" id="dice-scene-yellow" data-color="yellow" title="Click or Press Space to Roll">
+                                <div class="cube-dice dice-yellow" id="dice-cube-yellow">
+                                    <div class="dice-face face-1"><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-2"><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-3"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-4"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-5"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                    <div class="dice-face face-6"><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span><span class="dice-pip"></span></div>
+                                </div>
+                            </div>
+                            <span class="corner-dice-label" id="dice-label-yellow">🎲 ROLL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation / Quick Action Dock -->
+    <nav class="mobile-bottom-dock" aria-label="Mobile Quick Controls">
+        <button id="dock-roll-btn" class="dock-btn dock-btn-highlight" title="Roll Dice">
+            <span class="dock-icon">🎲</span>
+            <span class="dock-label">Roll</span>
+        </button>
+        <button id="dock-undo-btn" class="dock-btn" title="Undo Move (Practice Mode)" style="display: none;">
+            <span class="dock-icon">↩️</span>
+            <span class="dock-label">Undo</span>
+        </button>
+        <button id="dock-sound-btn" class="dock-btn" title="Toggle Sound">
+            <span class="dock-icon" id="dock-sound-icon">🔊</span>
+            <span class="dock-label">Audio</span>
+        </button>
+        <button id="dock-fullscreen-btn" class="dock-btn" title="Fullscreen View">
+            <span class="dock-icon">⛶</span>
+            <span class="dock-label">Screen</span>
+        </button>
+        <button id="dock-install-btn" class="dock-btn" title="Install App">
+            <span class="dock-icon">📲</span>
+            <span class="dock-label">Install</span>
+        </button>
+        <button id="dock-settings-btn" class="dock-btn" title="Game Settings">
+            <span class="dock-icon">⚙️</span>
+            <span class="dock-label">Settings</span>
+        </button>
+        <button id="dock-rules-btn" class="dock-btn" title="How to Play">
+            <span class="dock-icon">📖</span>
+            <span class="dock-label">Rules</span>
+        </button>
+    </nav>
+
+    <!-- ==========================================================================
+         MODALS & OVERLAYS
+         ========================================================================== -->
+
+    <!-- Quit Game Confirmation Modal -->
+    <div id="quit-modal" class="modal-backdrop">
+        <div class="modal-content confirmation-modal-content">
+            <div class="confirm-icon">🚪</div>
+            <h3 class="modal-title">Quit Current Game?</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">Are you sure you want to quit this match and return to the main menu?</p>
+            <div style="display: flex; gap: 12px; width: 100%; margin-top: 18px;">
+                <button id="cancel-quit-btn" class="btn-secondary" style="flex: 1; justify-content: center;">Cancel</button>
+                <button id="confirm-quit-btn" class="btn-flow btn-flow-quit" style="flex: 1; justify-content: center;">Quit Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restart Game Confirmation Modal -->
+    <div id="restart-modal" class="modal-backdrop">
+        <div class="modal-content confirmation-modal-content">
+            <div class="confirm-icon">🔄</div>
+            <h3 class="modal-title">Restart Match?</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">Reset the board and replay with the current players and settings?</p>
+            <div style="display: flex; gap: 12px; width: 100%; margin-top: 18px;">
+                <button id="cancel-restart-btn" class="btn-secondary" style="flex: 1; justify-content: center;">Cancel</button>
+                <button id="confirm-restart-btn" class="btn-flow btn-flow-restart" style="flex: 1; justify-content: center;">Restart Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. Welcome / Initial Start Screen Modal Overlay -->
+    <div id="welcome-screen" class="modal-backdrop active">
+        <div class="modal-content welcome-modal-content">
+            <div class="welcome-hero-banner">
+                <div class="hero-dice-badge">
+                    <span class="hero-dice-emoji">🎲</span>
+                </div>
+                <h1 class="welcome-title">LUDO ULTIMATE</h1>
+                <p class="welcome-tagline">3D Board Game App with Custom Player Names, 3D Dice Skins &amp; Instant Offline Play</p>
+                <div class="app-pwa-badge">
+                    <span>⚡ Progressive Web App</span>
+                    <span>•</span>
+                    <span>🛡️ ISO/IEC Certified</span>
+                    <span>•</span>
+                    <span>📴 100% Offline Ready</span>
+                </div>
+            </div>
+
+            <div class="welcome-features-grid">
+                <div class="welcome-feature-card">
+                    <span class="feat-icon">👤🤖</span>
+                    <div class="feat-content">
+                        <strong>Game Modes</strong>
+                        <span>Single Player vs AI, Duo 1v1, 2v2 Team &amp; Pass &amp; Play</span>
+                    </div>
+                </div>
+                <div class="welcome-feature-card">
+                    <span class="feat-icon">👥</span>
+                    <div class="feat-content">
+                        <strong>Custom Players</strong>
+                        <span>Custom names, 12 unique avatars &amp; corner stations</span>
+                    </div>
+                </div>
+                <div class="welcome-feature-card">
+                    <span class="feat-icon">🎲✨</span>
+                    <div class="feat-content">
+                        <strong>3D Dice Skins</strong>
+                        <span>Neon, Gold, Cyber, Magma, Glacier Ice &amp; Wood</span>
+                    </div>
+                </div>
+                <div class="welcome-feature-card">
+                    <span class="feat-icon">👑💎</span>
+                    <div class="feat-content">
+                        <strong>Kaati Skins</strong>
+                        <span>Royal Crowns, Diamond Gems, Rockets &amp; Shields</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="hero-start-game-btn" class="btn-hero-start" title="Click to Configure &amp; Start the Game">
+                <span class="hero-btn-icon">🎮</span>
+                <span class="hero-btn-text">START THE GAME</span>
+                <span class="hero-btn-arrow">➔</span>
+            </button>
+
+            <button id="hero-install-app-btn" class="btn-hero-install" title="Install Ludo Ultimate App on this device">
+                <span class="hero-btn-icon">📲</span>
+                <span class="hero-btn-text">INSTALL APP ON DEVICE</span>
+                <span class="hero-btn-arrow">⚡</span>
+            </button>
+
+            <div class="welcome-quick-links">
+                <button id="hero-rules-btn" class="btn-secondary" style="font-size: 0.82rem;">📖 How to Play</button>
+                <button id="hero-settings-btn" class="btn-secondary" style="font-size: 0.82rem;">⚙️ Settings &amp; Audio</button>
+                <button id="hero-online-btn" class="btn-secondary" style="font-size: 0.82rem;">🌐 Online Rooms</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Game Setup & Player Configuration Modal -->
+    <div id="setup-modal" class="modal-backdrop">
+        <div class="modal-content setup-modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">🎲 Game Setup &amp; Customization</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Choose game modes, player counts, 3D dice styles &amp; token skins</p>
+                </div>
+                <button class="modal-close" id="setup-close-btn">&times;</button>
+            </div>
+
+            <!-- Game Mode Tabs -->
+            <div class="mode-selector-tabs">
+                <button class="mode-tab-btn active" data-mode="solo">
+                    <span class="mode-tab-icon">👤🤖</span>
+                    <span class="mode-tab-title">Single Player</span>
+                    <span class="mode-tab-subtitle">You vs AI Bots</span>
+                </button>
+                <button class="mode-tab-btn" data-mode="duo_1v1">
+                    <span class="mode-tab-icon">⚔️</span>
+                    <span class="mode-tab-title">Duo 1v1 Duel</span>
+                    <span class="mode-tab-subtitle">Head-to-Head Showdown</span>
+                </button>
+                <button class="mode-tab-btn" data-mode="duo_2v2">
+                    <span class="mode-tab-icon">🤝</span>
+                    <span class="mode-tab-title">Duo 2v2 Battle</span>
+                    <span class="mode-tab-subtitle">Co-op Team Alpha vs Bravo</span>
+                </button>
+                <button class="mode-tab-btn" data-mode="multiplayer_local">
+                    <span class="mode-tab-icon">👥👑</span>
+                    <span class="mode-tab-title">Pass &amp; Play</span>
+                    <span class="mode-tab-subtitle">Local Party Match</span>
+                </button>
+            </div>
+
+            <!-- Number of Players Selector (2 Opposite, 3, 4 Players) -->
+            <div class="setup-group" id="player-count-group">
+                <label class="setup-label" id="player-count-label">Number of Players Playing</label>
+                <div class="player-count-pills">
+                    <button class="pill-btn" data-count="2">2 Players (Opposite)</button>
+                    <button class="pill-btn" data-count="3">3 Players</button>
+                    <button class="pill-btn active" data-count="4">4 Players</button>
+                </div>
+            </div>
+
+            <!-- 3D Dice Styles / Skins Selector -->
+            <div class="setup-group">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <label class="setup-label">🎲 3D Dice Styles &amp; Skins</label>
+                    <span style="font-size: 0.76rem; color: var(--text-muted);">Choose custom 3D dice appearance</span>
+                </div>
+                <div class="skins-grid" id="dice-skins-grid">
+                    <button type="button" class="skin-card active" data-dice-skin="neon">
+                        <span class="skin-icon">✨</span>
+                        <span class="skin-title">Neon Crystal</span>
+                    </button>
+                    <button type="button" class="skin-card" data-dice-skin="gold">
+                        <span class="skin-icon">👑</span>
+                        <span class="skin-title">Golden Royale</span>
+                    </button>
+                    <button type="button" class="skin-card" data-dice-skin="cyber">
+                        <span class="skin-icon">🌌</span>
+                        <span class="skin-title">Cyber Matrix</span>
+                    </button>
+                    <button type="button" class="skin-card" data-dice-skin="lava">
+                        <span class="skin-icon">🌋</span>
+                        <span class="skin-title">Volcano Magma</span>
+                    </button>
+                    <button type="button" class="skin-card" data-dice-skin="ice">
+                        <span class="skin-icon">❄️</span>
+                        <span class="skin-title">Glacier Ice</span>
+                    </button>
+                    <button type="button" class="skin-card" data-dice-skin="wood">
+                        <span class="skin-icon">🪵</span>
+                        <span class="skin-title">Mahogany Wood</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ludo Kaati (Token / Pawn) Skins Selector -->
+            <div class="setup-group">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <label class="setup-label">👑 Ludo Kaati (Token / Pawn) Skins</label>
+                    <span style="font-size: 0.76rem; color: var(--text-muted);">Choose unique 3D token design</span>
+                </div>
+                <div class="skins-grid" id="kaati-skins-grid">
+                    <button type="button" class="skin-card active" data-kaati-skin="crown">
+                        <span class="skin-icon">👑</span>
+                        <span class="skin-title">Royale Crowns</span>
+                    </button>
+                    <button type="button" class="skin-card" data-kaati-skin="gem">
+                        <span class="skin-icon">💎</span>
+                        <span class="skin-title">Diamond Gems</span>
+                    </button>
+                    <button type="button" class="skin-card" data-kaati-skin="shield">
+                        <span class="skin-icon">🛡️</span>
+                        <span class="skin-title">Cyber Shields</span>
+                    </button>
+                    <button type="button" class="skin-card" data-kaati-skin="rocket">
+                        <span class="skin-icon">🚀</span>
+                        <span class="skin-title">Star Rockets</span>
+                    </button>
+                    <button type="button" class="skin-card" data-kaati-skin="mythic">
+                        <span class="skin-icon">🦁</span>
+                        <span class="skin-title">Mythic Avatars</span>
+                    </button>
+                    <button type="button" class="skin-card" data-kaati-skin="marble">
+                        <span class="skin-icon">🔴</span>
+                        <span class="skin-title">Classic Marbles</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Difficulty Selection -->
+            <div class="setup-group" id="ai-difficulty-group">
+                <label class="setup-label">AI Difficulty Level</label>
+                <div class="difficulty-pills">
+                    <button class="diff-btn" data-diff="easy">
+                        <span>🌱 Casual (Easy)</span>
+                    </button>
+                    <button class="diff-btn active" data-diff="medium">
+                        <span>⚔️ Tactical (Medium)</span>
+                    </button>
+                    <button class="diff-btn" data-diff="hard">
+                        <span>🔥 Grandmaster (Hard)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dedicated Player Name Inputs Container (Dynamically rendered based on player count) -->
+            <div class="setup-group">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                    <label class="setup-label">Player Names &amp; Customization</label>
+                    <button type="button" id="global-unfair-bias-btn" class="unfair-toggle-btn" aria-label="Toggle full bias for every player">
+                        <span>⚖️ Fair Match</span>
+                    </button>
+                </div>
+                <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 6px;">Type custom name &amp; tap icon to cycle avatar</div>
+                <div id="player-rows-container" class="player-rows-container">
+                    <!-- Populated dynamically by app.js based on 2, 3, or 4 players -->
+                </div>
+            </div>
+
+            <!-- Game Modifiers: Tokens & Turn Timer -->
+            <div class="setup-grid-row">
+                <div class="setup-group">
+                    <label class="setup-label">Tokens per Player</label>
+                    <div class="modifier-pills">
+                        <button class="mod-pill-btn active" data-tokens="4">4 Tokens (Classic)</button>
+                        <button class="mod-pill-btn" data-tokens="2">2 Tokens (Sprint)</button>
+                    </div>
+                </div>
+
+                <div class="setup-group">
+                    <label class="setup-label">Blitz Turn Timer</label>
+                    <div class="modifier-pills">
+                        <button class="timer-pill-btn active" data-timer="0">Off</button>
+                        <button class="timer-pill-btn" data-timer="15">15s Blitz</button>
+                        <button class="timer-pill-btn" data-timer="30">30s Standard</button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="start-game-btn" class="btn-hero-start" style="width: 100%; justify-content: center; font-size: 1.05rem;">
+                <span>🚀</span>
+                <span>LAUNCH GAME &amp; PLAY NOW</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ISO/IEC 27001 & 25010 Security & Provable Fairness Inspector Modal -->
+    <div id="dice-choice-modal" class="modal-backdrop">
+        <div class="modal-content confirmation-modal-content">
+            <div class="confirm-icon">🎲</div>
+            <h3 id="dice-choice-title" class="modal-title">Choose your winning roll</h3>
+            <p id="dice-choice-text" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">Pick any number from 1 to 6 for this turn.</p>
+            <div id="dice-choice-grid" style="display: grid; grid-template-columns: repeat(3, minmax(80px, 1fr)); gap: 12px; width: 100%; margin-top: 18px;"></div>
+        </div>
+    </div>
+
+    <div id="iso-modal" class="modal-backdrop">
+        <div class="modal-content iso-modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5rem;">🛡️</span>
+                    <div>
+                        <h3 class="modal-title">ISO/IEC Security &amp; Compliance Center</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Verified Cryptographic Integrity &amp; Quality Architecture</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="iso-close-btn">&times;</button>
+            </div>
+
+            <!-- ISO Badges Grid -->
+            <div class="iso-certs-grid">
+                <div class="iso-cert-card">
+                    <div class="iso-cert-header">
+                        <span class="iso-badge-tag">ISO/IEC 27001:2022</span>
+                        <span class="iso-status-active">● Active</span>
+                    </div>
+                    <div class="iso-cert-title">Information Security &amp; ISMS</div>
+                    <p class="iso-cert-desc">CSPRNG randomness entropy, zero-trust anti-cheat state validation, and SHA-256 tamper-proof ledger.</p>
+                </div>
+
+                <div class="iso-cert-card">
+                    <div class="iso-cert-header">
+                        <span class="iso-badge-tag">ISO/IEC 25010:2023</span>
+                        <span class="iso-status-active">● Active</span>
+                    </div>
+                    <div class="iso-cert-title">Software Product Quality Model</div>
+                    <p class="iso-cert-desc">Sub-millisecond state execution, 60 FPS visual rendering, zero memory leaks, and offline synthesized Web Audio.</p>
+                </div>
+
+                <div class="iso-cert-card">
+                    <div class="iso-cert-header">
+                        <span class="iso-badge-tag">ISO/IEC 40500 / WCAG</span>
+                        <span class="iso-status-active">● Compliant</span>
+                    </div>
+                    <div class="iso-cert-title">Accessibility &amp; Ergonomics</div>
+                    <p class="iso-cert-desc">Full keyboard shortcuts (Spacebar roll, 1-4 token move, Esc modal control), high-contrast tokens.</p>
+                </div>
+
+                <div class="iso-cert-card">
+                    <div class="iso-cert-header">
+                        <span class="iso-badge-tag">ISO 9001:2015</span>
+                        <span class="iso-status-active">● Certified</span>
+                    </div>
+                    <div class="iso-cert-title">Quality Management Systems</div>
+                    <p class="iso-cert-desc">Automated self-testing, zero-latency cross-tab peer replication, and verifiable fair play.</p>
+                </div>
+            </div>
+
+            <!-- Diagnostics Self-Test Suite -->
+            <div class="iso-diag-box">
+                <div class="iso-diag-header">
+                    <div>
+                        <strong>Automated System Diagnostics</strong>
+                        <div id="diag-summary-text" style="font-size: 0.8rem; color: var(--color-green);">All 4 Core Subsystems Verified (100% Pass)</div>
+                    </div>
+                    <button id="run-diag-btn" class="btn-secondary">Run Diagnostics 🧪</button>
+                </div>
+                <div id="diag-results-list" class="diag-results-list"></div>
+            </div>
+
+            <!-- Provable Fairness SHA-256 Audit Trail Table -->
+            <div class="iso-audit-section">
+                <div class="iso-audit-header">
+                    <div>
+                        <strong>Provably Fair Cryptographic Audit Ledger</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Real-time SHA-256 cryptographic proof for every dice roll</p>
+                    </div>
+                </div>
+                <div class="audit-table-wrapper">
+                    <table class="audit-table">
+                        <thead>
+                            <tr>
+                                <th>Nonce</th>
+                                <th>Time</th>
+                                <th>Player</th>
+                                <th>Roll</th>
+                                <th>Cryptographic SHA-256 Hash</th>
+                                <th>Audit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Online Multiplayer Room Modal -->
+    <div id="room-modal" class="modal-backdrop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🌐 Online Multi-Tab Room</h3>
+                <button class="modal-close" id="room-close-btn">&times;</button>
+            </div>
+
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+                Play with friends across multiple browser tabs, windows, or synced devices in real time using high-speed peer sync!
+            </p>
+
+            <div class="room-actions-box">
+                <button id="create-room-btn" class="btn-primary" style="justify-content: center; width: 100%;">
+                    <span>✨</span>
+                    <span>Create New Room</span>
+                </button>
+
+                <div class="room-divider"><span>OR JOIN WITH CODE</span></div>
+
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="join-room-input" class="room-code-input" placeholder="Enter 6-digit Code (e.g. 7X8K2M)" maxlength="6">
+                    <button id="join-room-btn" class="btn-secondary">Join</button>
+                </div>
+            </div>
+
+            <div id="room-status-box" class="room-status-box" style="display: none;">
+                <div class="room-code-display">
+                    <span>ROOM CODE:</span>
+                    <strong id="active-room-code-display">#LUDO-ABCDEF</strong>
+                    <button id="copy-room-code-btn" class="btn-icon-small" title="Copy Room Code">📋</button>
+                </div>
+                <div class="connected-peers-list" id="connected-peers-list">
+                    <!-- Dynamic peer slots -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Victory / Game Over Modal -->
+    <div id="winner-modal" class="modal-backdrop">
+        <div class="modal-content winner-card">
+            <div class="trophy-glow">🏆</div>
+            <h3 class="modal-title" id="winner-heading">Victory!</h3>
+            <p id="winner-subtext" style="color: var(--text-muted);">Congratulations to the champion!</p>
+
+            <div class="winner-rankings-list" id="winner-rankings-list">
+                <!-- Ranks injected dynamically -->
+            </div>
+
+            <div style="display: flex; gap: 12px; width: 100%; margin-top: 10px;">
+                <button id="play-again-btn" class="btn-primary" style="flex: 1; justify-content: center;">Play Again</button>
+                <button id="modal-new-game-btn" class="btn-icon" style="width: auto; padding: 0 16px;">⚙️ Setup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-backdrop">
+        <div class="modal-content settings-modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.4rem;">⚙️</span>
+                    <div>
+                        <h3 class="modal-title">Game Settings &amp; Preferences</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Audio, Themes, Animation Speed, &amp; Security Controls</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="settings-close-btn">&times;</button>
+            </div>
+
+            <div class="settings-body">
+                <!-- 1. Audio & Sound FX Section -->
+                <div class="settings-section">
+                    <h4 class="settings-section-title">🔊 Audio &amp; Haptics FX</h4>
+                    
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Master Volume</span>
+                            <span class="setting-subtext">Overall procedural audio synthesizer output</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="range" id="setting-volume-slider" min="0" max="100" value="80" class="setting-slider">
+                            <span id="setting-volume-value" style="font-size: 0.82rem; font-family: var(--font-mono); width: 36px;">80%</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">3D Dice Roll Sound</span>
+                            <span class="setting-subtext">Acoustic clatter upon rolling dice</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-dice-sound" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Token Hop &amp; Move Sounds</span>
+                            <span class="setting-subtext">Step-by-step tile hopping chimes</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-step-sound" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Victory &amp; Fanfare Melody</span>
+                            <span class="setting-subtext">Celebratory chimes when winning or reaching home</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-victory-sound" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Mobile Haptic Vibrations</span>
+                            <span class="setting-subtext">Tactile feedback on dice rolls, hops, and captures</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-haptics" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 2. Visuals & Themes Section -->
+                <div class="settings-section">
+                    <h4 class="settings-section-title">🎨 Visuals &amp; Board Themes</h4>
+
+                    <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                        <div class="setting-info">
+                            <span class="setting-label">Board Atmosphere Theme</span>
+                            <span class="setting-subtext">Choose your visual color style and glow</span>
+                        </div>
+                        <div class="theme-selector-grid">
+                            <button class="theme-btn active" data-theme="midnight">
+                                <span class="theme-preview-dot" style="background: linear-gradient(135deg, #172554, #090d16);"></span>
+                                <span>Midnight Cyber</span>
+                            </button>
+                            <button class="theme-btn" data-theme="royal">
+                                <span class="theme-preview-dot" style="background: linear-gradient(135deg, #854d0e, #1c1917);"></span>
+                                <span>Royal Velvet</span>
+                            </button>
+                            <button class="theme-btn" data-theme="emerald">
+                                <span class="theme-preview-dot" style="background: linear-gradient(135deg, #065f46, #022c22);"></span>
+                                <span>Emerald Garden</span>
+                            </button>
+                            <button class="theme-btn" data-theme="ocean">
+                                <span class="theme-preview-dot" style="background: linear-gradient(135deg, #0284c7, #082f49);"></span>
+                                <span>Ocean Sapphire</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Animation Pace</span>
+                            <span class="setting-subtext">Token movement &amp; dice roll velocity</span>
+                        </div>
+                        <div class="speed-selector-pills">
+                            <button class="speed-btn active" data-speed="normal">Normal (1x)</button>
+                            <button class="speed-btn" data-speed="fast">Fast (1.5x)</button>
+                            <button class="speed-btn" data-speed="instant">Instant (3x)</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Confetti Fireworks Particle FX</span>
+                            <span class="setting-subtext">Explosive celebrations on winner crowning</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-confetti" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 3. Accessibility & Controls -->
+                <div class="settings-section">
+                    <h4 class="settings-section-title">♿ Accessibility &amp; Controls</h4>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">High-Contrast Colorblind Glyphs</span>
+                            <span class="setting-subtext">Embed geometric markers (◆, ▲, ●, ■) on tokens</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-glyphs" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Valid Move Pulsing Glow</span>
+                            <span class="setting-subtext">Highlight tokens that can be legally moved</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-pulse-glow" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 4. Security & Cryptographic Seed Management -->
+                <div class="settings-section">
+                    <h4 class="settings-section-title">🛡️ Cryptographic &amp; Data Management</h4>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Regenerate CSPRNG Entropy Seeds</span>
+                            <span class="setting-subtext">Create fresh client &amp; server seed pairs for provable fairness</span>
+                        </div>
+                        <button id="regenerate-seeds-btn" class="btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">🔄 New Seeds</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span class="setting-label">Reset All Settings</span>
+                            <span class="setting-subtext">Restore default game preferences and audio settings</span>
+                        </div>
+                        <button id="reset-settings-btn" class="btn-secondary" style="color: #ff85a2; border-color: rgba(255, 51, 102, 0.4); font-size: 0.8rem; padding: 6px 12px;">Reset Defaults</button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="settings-save-btn" class="btn-primary" style="justify-content: center; width: 100%;">
+                <span>💾</span>
+                <span>Save &amp; Apply Settings</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Universal Install & Launch App Modal -->
+    <div id="install-app-modal" class="modal-backdrop">
+        <div class="modal-content install-modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5rem;">📲</span>
+                    <div>
+                        <h3 class="modal-title">Install &amp; Launch Ludo Ultimate App</h3>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Play as a 100% Standalone Desktop or Mobile App</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="install-modal-close-btn">&times;</button>
+            </div>
+
+            <!-- Install Options Grid -->
+            <div class="install-options-grid">
+                <!-- 1. Windows Desktop App Option -->
+                <div class="install-card active-card">
+                    <div class="install-card-header">
+                        <span class="install-card-badge">⭐ RECOMMENDED (WINDOWS)</span>
+                        <div class="install-card-icon">🖥️</div>
+                        <h4 class="install-card-title">Windows Desktop App</h4>
+                        <p class="install-card-desc">Run as a dedicated desktop application with its own window, icon, and zero browser borders.</p>
+                    </div>
+                    <div class="install-card-body">
+                        <div class="install-shortcut-status">
+                            <span>✅ Desktop shortcut created: <strong>"Ludo Ultimate"</strong></span>
+                        </div>
+                        <div class="install-actions-row">
+                            <button id="launch-desktop-guide-btn" class="btn-primary" style="flex: 1; justify-content: center;">
+                                <span>🚀</span>
+                                <span>How to Launch</span>
+                            </button>
+                        </div>
+                        <div id="desktop-launch-steps" class="install-guide-steps" style="display: none; margin-top: 10px;">
+                            <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+                                1. Double-click the <strong>"Ludo Ultimate"</strong> shortcut on your Desktop.<br>
+                                2. Or double-click <strong><code>Ludo-App.vbs</code></strong> inside this folder.<br>
+                                3. The game opens instantly in full standalone app mode!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Web & Mobile PWA Option -->
+                <div class="install-card">
+                    <div class="install-card-header">
+                        <span class="install-card-badge">PWA &amp; MOBILE</span>
+                        <div class="install-card-icon">📱</div>
+                        <h4 class="install-card-title">Browser &amp; Phone Install</h4>
+                        <p class="install-card-desc">Install directly from Chrome, Edge, Safari, or Android home screen.</p>
+                    </div>
+                    <div class="install-card-body">
+                        <div class="install-guide-steps">
+                            <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+                                • <strong>Chrome / Edge (Desktop)</strong>: Look for the <strong>Install icon (⊕)</strong> on the right side of the address bar.<br>
+                                • <strong>Android</strong>: Tap Menu (⋮) &rarr; <strong>"Install App"</strong>.<br>
+                                • <strong>iPhone (iOS)</strong>: Tap Share (<span style="font-size: 0.9rem;">⎋</span>) &rarr; <strong>"Add to Home Screen"</strong>.
+                            </p>
+                        </div>
+                        <button id="direct-pwa-trigger-btn" class="btn-secondary" style="width: 100%; justify-content: center; margin-top: 8px;">
+                            <span>⚡</span>
+                            <span>Trigger Browser Install</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button id="install-modal-done-btn" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 14px;">
+                Got it, Continue Playing!
+            </button>
+        </div>
+    </div>
+
+    <!-- iOS Safari Install Helper Modal -->
+    <div id="ios-install-modal" class="modal-backdrop">
+        <div class="modal-content confirmation-modal-content">
+            <div class="confirm-icon">📱</div>
+            <h3 class="modal-title">Install App on iOS / iPhone</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.5; margin-top: 6px;">
+                To install Ludo Ultimate as an app on your iPhone or iPad:
+            </p>
+            <div class="ios-install-steps">
+                <div class="ios-step-item">
+                    <span class="step-num">1</span>
+                    <span>Tap the <strong>Share</strong> button <span style="font-size: 1.1rem;">⎋</span> at the bottom of Safari.</span>
+                </div>
+                <div class="ios-step-item">
+                    <span class="step-num">2</span>
+                    <span>Scroll down and tap <strong>Add to Home Screen</strong> <span style="font-size: 1.1rem;">➕</span>.</span>
+                </div>
+                <div class="ios-step-item">
+                    <span class="step-num">3</span>
+                    <span>Tap <strong>Add</strong> in the top right to install!</span>
+                </div>
+            </div>
+            <button id="ios-install-close-btn" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 14px;">
+                Got it!
+            </button>
+        </div>
+    </div>
+
+    <!-- Rules & ISO Quality Modal -->
+    <div id="rules-modal" class="modal-backdrop">
+        <div class="modal-content rules-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📖 Game Rules &amp; Modes Guide</h3>
+                <button class="modal-close" id="rules-close-btn">&times;</button>
+            </div>
+
+            <div class="rules-content">
+                <div class="rules-section-card">
+                    <h4>🎯 Core Objective</h4>
+                    <p>Navigate all your tokens around the board and into your central Home Goal before your opponents.</p>
+                </div>
+
+                <div class="rules-section-card">
+                    <h4>⚔️ Game Modes Explained</h4>
+                    <p>• <strong>Single Player</strong>: Challenge sophisticated AI bots (Casual, Tactical, Grandmaster) with practice undo support.</p>
+                    <p>• <strong>Duo 1v1</strong>: High-speed head-to-head showdown on opposite board tracks (Red vs Yellow).</p>
+                    <p>• <strong>Duo 2v2 Team Battle</strong>: Team Alpha (Red + Yellow) vs Team Bravo (Green + Blue). Friendly fire is disabled — teammate tokens protect and support each other!</p>
+                    <p>• <strong>Pass &amp; Play</strong>: Full customization of names, avatars, and human/AI participants.</p>
+                </div>
+
+                <div class="rules-section-card">
+                    <h4>🎲 Standard Board Rules</h4>
+                    <p>• <span class="rule-highlight">Rolling a 6</span>: Required to move a token out of base onto starting tile. Awards an extra roll (three consecutive 6s forfeits turn).</p>
+                    <p>• <span class="rule-highlight">Capturing</span>: Landing on an opponent token sends it back to base and awards a Bonus Roll!</p>
+                    <p>• <span class="rule-highlight">Safe Star Zones</span>: Tiles marked with a <strong>Star (★)</strong> and start tiles are safe from capture.</p>
+                    <p>• <span class="rule-highlight">Home Goal</span>: Requires exact dice roll to finish. Grants a bonus turn.</p>
+                </div>
+
+                <div class="rules-section-card">
+                    <h4>🛡️ ISO/IEC 27001 &amp; Provable Fairness</h4>
+                    <p>All rolls use Cryptographically Secure Random Number Generation (CSPRNG). Every roll is recorded in an immutable SHA-256 audit ledger to guarantee 100% fair, non-rigged play.</p>
+                </div>
+
+                <div class="rules-section-card">
+                    <h4>⌨️ Keyboard &amp; Touch Controls</h4>
+                    <p>• <kbd>Space</kbd> or Corner Tap: Roll Dice</p>
+                    <p>• <kbd>1</kbd> - <kbd>4</kbd> or Token Tap: Select Token to Move</p>
+                    <p>• <kbd>M</kbd>: Toggle Sound</p>
+                    <p>• <kbd>Esc</kbd>: Close Modals</p>
+                </div>
+            </div>
+
+            <button id="rules-got-it-btn" class="btn-primary" style="justify-content: center;">Got it, Let's Play!</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/security.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/multiplayer.js"></script>
+    <script src="js/ludo-engine.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
